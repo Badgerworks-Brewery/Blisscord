@@ -33,7 +33,11 @@
 
 - **Cross-platform support!**
 
-   Legcord was originally created for AArch64 Linux devices since Discord doesn't support them. We soon decided to support every platform that [Electron supports](https://github.com/electron/electron#platform-support)!
+   The base Legcord client was originally created for AArch64 Linux devices since Discord doesn't support them. We soon decided to support every platform that [Electron supports](https://github.com/electron/electron#platform-support)!
+
+- **Unjustified ban bypassing**
+
+   Blisscord is big on freedom of speeh/expression, and is also aware of how excruciating these ban appeals are (especially with Discord's in-house support team), so Blisscord will work to allow users to still use their disabled accounts, and still access servers that have banned them, we will use a custom client-side moderation system to ensure that this bypass feature isnt abused by those deserving of their ban(s).
   
 # How to run/install it?
 
