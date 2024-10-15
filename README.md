@@ -37,7 +37,15 @@
 
 - **Unjustified ban bypassing**
 
-   Blisscord is big on freedom of speeh/expression, and is also aware of how excruciating these ban appeals are (especially with Discord's in-house support team), so Blisscord will work to allow users to still use their disabled accounts, and still access servers that have banned them, we will use a custom client-side moderation system to ensure that this bypass feature isnt abused by those deserving of their ban(s).
+   Blisscord is big on freedom of speeh/expression, and is also aware of how excruciating these ban appeals are (especially with Discord's in-house support team), so Blisscord will work to allow users to still use their disabled accounts, and still access servers that have banned them, we will use a custom client-side automatic moderation system to ensure that this bypass feature isnt abused by those deserving of their ban(s).
+
+- **Disboard sidebar**
+
+  Browse servers in Disboard while still comfortably sitting inside of the application.
+
+- **Better VC Features**
+
+  Like a better Watch Together etc.
   
 # How to run/install it?
 
