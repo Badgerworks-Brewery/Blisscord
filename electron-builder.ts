@@ -11,10 +11,17 @@ export const config: Configuration = {
         notarize: true,
         extendInfo: {
             NSMicrophoneUsageDescription: "Legcord requires access to the microphone to function properly.",
-            NSCameraUsageDescription: "legcord requires access to the camera to function properly.",
+            NSCameraUsageDescription: "Legcord requires access to the camera to function properly.",
             "com.apple.security.device.audio-input": true,
             "com.apple.security.device.camera": true,
         },
+    },
+
+    linux: {
+        icon: "build/icon.icns",
+        target: ["AppImage", "deb", "rpm", "tar.gz"],
+        maintainer: "linux@legcord.app",
+        category: "Network",
     },
 
     nsis: {
@@ -31,18 +38,14 @@ export const config: Configuration = {
         showNameOnTiles: true,
     },
 
-    linux: {
-        icon: "build/icon.icns",
-        target: ["AppImage", "deb", "rpm", "tar.gz"],
-        maintainer: "linux@legcord.app",
-        category: "Network",
-    },
-
     snap: {
         environment: { ARRPC_NO_PROCESS_SCANNING: "true" },
         allowNativeWayland: true,
         executableArgs: ["--no-process-scanning"],
         base: "core24",
+        publish: {
+            provider: "snapStore",
+        },
     },
 
     files: ["!*", "assets", "node-modules", "ts-out", "package.json", "license.txt"],
