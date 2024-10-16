@@ -65,6 +65,7 @@ if (!app.requestSingleInstanceLock() && getConfig("multiInstance") === false) {
     // kill if 2nd instance
     app.quit();
 } else {
+    app.setAppUserModelId("app.legcord.Legcord");
     app.commandLine.appendSwitch("disable-features", "WidgetLayering"); // fix dev tools layers
     // Your data now belongs to CCP
     crashReporter.start({ uploadToServer: false });
@@ -105,6 +106,9 @@ if (!app.requestSingleInstanceLock() && getConfig("multiInstance") === false) {
     if (getConfig("audio") === undefined) setConfig("audio", "loopbackWithMute");
     if (getConfig("keybinds") === undefined) setConfig("keybinds", []);
     if (getConfig("trayIcon") === "default") setConfig("trayIcon", "dynamic");
+    if (getConfig("transparency") === undefined) setConfig("transparency", "none");
+    // @ts-ignore
+    if (getConfig("windowStyle") === "transparent") setConfig("windowStyle", "default");
     if (getConfig("smoothScroll") === false) app.commandLine.appendSwitch("disable-smooth-scrolling");
     if (getConfig("autoScroll")) app.commandLine.appendSwitch("enable-blink-features", "MiddleClickAutoscroll");
     if (getConfig("disableHttpCache")) app.commandLine.appendSwitch("disable-http-cache");
@@ -125,6 +129,10 @@ if (!app.requestSingleInstanceLock() && getConfig("multiInstance") === false) {
                 callback(true);
             }
             if (permission === "media") {
+                // Approves the permissions request
+                callback(true);
+            }
+            if (permission === "fullscreen") {
                 // Approves the permissions request
                 callback(true);
             }
