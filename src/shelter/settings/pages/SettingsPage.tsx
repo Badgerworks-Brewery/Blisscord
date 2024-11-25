@@ -82,13 +82,12 @@ export function SettingsPage() {
             </DropdownItem>
             <DropdownItem
                 value={store.settings.trayIcon}
-                onChange={(e) =>
-                    setConfig("trayIcon", (e.target as HTMLInputElement).value as Settings["trayIcon"], true)
-                }
+                onChange={(e) => setConfig("tray", (e.target as HTMLInputElement).value as Settings["tray"], true)}
                 title={store.i18n["settings-trayIcon"]}
                 note={store.i18n["settings-trayIcon-desc"]}
             >
                 <option value="dynamic">{store.i18n["settings-trayIcon-dynamic"]}</option>
+                <option value="disabled">{store.i18n["settings-trayIcon-disabled"]}</option>
                 <option value="dsc-tray">{store.i18n["settings-trayIcon-normal"]}</option>
                 <option value="clsc-dsc-tray">{store.i18n["settings-trayIcon-classic"]}</option>
                 <option value="ac_plug_colored">{store.i18n["settings-trayIcon-colored-plug"]}</option>
@@ -147,18 +146,18 @@ export function SettingsPage() {
                 {store.i18n["settings-MultiInstance"]}
             </SwitchItem>
             <SwitchItem
+                note={store.i18n["settings-disableAutogain-desc"]}
+                value={store.settings.disableAutogain}
+                onChange={(e: boolean) => setConfig("disableAutogain", e)}
+            >
+                {store.i18n["settings-disableAutogain"]}
+            </SwitchItem>
+            <SwitchItem
                 note={store.i18n["settings-mintoTray-desc"]}
                 value={store.settings.minimizeToTray}
                 onChange={(e: boolean) => setConfig("minimizeToTray", e)}
             >
                 {store.i18n["settings-mintoTray"]}
-            </SwitchItem>
-            <SwitchItem
-                note={store.i18n["settings-tray-desc"]}
-                value={store.settings.tray}
-                onChange={(e: boolean) => setConfig("tray", e, true)}
-            >
-                {store.i18n["settings-tray"]}
             </SwitchItem>
             <SwitchItem
                 note={store.i18n["settings-startMinimized-desc"]}
@@ -225,6 +224,10 @@ export function SettingsPage() {
             >
                 {store.i18n["settings-disableHttpCache"]}
             </SwitchItem>
+            <Button size={ButtonSizes.MAX} onClick={window.legcord.settings.openCustomIconDialog}>
+                {store.i18n["settings-openCustomIconDialog"]}
+            </Button>
+            <br />
             <Button size={ButtonSizes.MAX} onClick={window.legcord.settings.openStorageFolder}>
                 {store.i18n["settings-storageFolder"]}
             </Button>

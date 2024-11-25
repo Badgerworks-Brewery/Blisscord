@@ -55,11 +55,11 @@ contextBridge.exposeInMainWorld("legcord", {
         openStorageFolder: () => ipcRenderer.send("openStorageFolder"),
         setLang: (lang: string) => ipcRenderer.send("setLang", lang),
         openThemesFolder: () => ipcRenderer.send("openThemesFolder"),
+        openCustomIconDialog: () => ipcRenderer.send("openCustomIconDialog"),
         copyDebugInfo: () => ipcRenderer.send("copyDebugInfo"),
         copyGPUInfo: () => ipcRenderer.send("copyGPUInfo"),
     },
     electron: process.versions.electron,
-    setTrayIcon: (favicon: string) => ipcRenderer.send("sendTrayIcon", favicon),
     translations: ipcRenderer.sendSync("getTranslations") as string,
     getLang: async (toGet: string) =>
         await ipcRenderer.invoke("getLang", toGet).then((result) => {

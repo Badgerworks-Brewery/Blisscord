@@ -9,7 +9,6 @@ export interface LegcordWindow {
         maximize: () => void;
     };
     electron: string;
-    setTrayIcon: (favicon: string) => void;
     getLang: (toGet: string) => Promise<string>;
     getDisplayMediaSelector: () => Promise<string>;
     version: string;
@@ -23,6 +22,7 @@ export interface LegcordWindow {
         setConfig: <K extends keyof Settings>(object: K, toSet: Settings[K]) => void;
         openStorageFolder: () => void;
         openThemesFolder: () => void;
+        openCustomIconDialog: () => void;
         copyDebugInfo: () => void;
         copyGPUInfo: () => void;
         setLang(lang: string): () => void;

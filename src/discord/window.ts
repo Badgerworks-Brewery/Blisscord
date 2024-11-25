@@ -1,4 +1,4 @@
-import * as fs from "node:fs";
+import { readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import RPCServer from "arrpc";
@@ -59,12 +59,7 @@ function doAfterDefiningTheWindow(passedWindow: BrowserWindow): void {
         void passedWindow.webContents.executeJavaScript(`document.body.setAttribute("isMaximized", "");`);
         passedWindow.hide(); // please don't flashbang the user
     }
-    if (getConfig("transparency") === "modern" && process.platform === "win32") {
-        passedWindow.setBackgroundMaterial("mica");
-        if (getConfig("startMinimized") === false) {
-            passedWindow.show();
-        }
-    }
+
     // REVIEW - Test the protocol warning. I was not sure how to get it to pop up. For now I've voided the promises.
 
     const ignoreProtocolWarning = getConfig("ignoreProtocolWarning");
@@ -102,12 +97,15 @@ function doAfterDefiningTheWindow(passedWindow: BrowserWindow): void {
         app.show();
     });
     passedWindow.webContents.on("frame-created", (_, { frame }) => {
+        if (!frame) {
+            return;
+        }
         frame.once("dom-ready", async () => {
             if (
                 frame.url.includes("youtube.com/embed/") ||
                 (frame.url.includes("discordsays") && frame.url.includes("youtube.com"))
             ) {
-                await frame.executeJavaScript(fs.readFileSync(path.join(__dirname, "js/adguard.js"), "utf-8"));
+                await frame.executeJavaScript(readFileSync(path.join(__dirname, "js/adguard.js"), "utf-8"));
             }
         });
     });
@@ -173,7 +171,7 @@ function doAfterDefiningTheWindow(passedWindow: BrowserWindow): void {
         (_, callback) => callback({ cancel: true }),
     );
 
-    if (getConfig("trayIcon") === "dynamic") {
+    if (getConfig("tray") === "dynamic") {
         passedWindow.webContents.on("page-favicon-updated", (_, favicons) => {
             try {
                 let favicon = nativeImage.createFromDataURL(favicons[0]);
@@ -349,6 +347,7 @@ export function createWindow() {
             browserWindowOptions.backgroundColor = "#00000000";
             browserWindowOptions.transparent = false;
             browserWindowOptions.frame = true;
+            browserWindowOptions.backgroundMaterial = "acrylic";
             break;
         case "none":
             break;

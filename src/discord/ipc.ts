@@ -1,7 +1,16 @@
-import fs from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { type BrowserWindow, type SourcesOptions, app, clipboard, desktopCapturer, ipcMain, shell } from "electron";
+import {
+    type BrowserWindow,
+    type SourcesOptions,
+    app,
+    clipboard,
+    desktopCapturer,
+    dialog,
+    ipcMain,
+    shell,
+} from "electron";
 
 import isDev from "electron-is-dev";
 import type { Keybind } from "../@types/keybind.js";
@@ -20,7 +29,7 @@ const pluginsPath = path.join(userDataPath, "/plugins/");
 const quickCssPath = path.join(userDataPath, "/quickCss.css");
 
 function ifExistsRead(path: string): string | undefined {
-    if (fs.existsSync(path)) return fs.readFileSync(path, "utf-8");
+    if (existsSync(path)) return readFileSync(path, "utf-8");
 }
 
 export function registerIpc(passedWindow: BrowserWindow): void {
@@ -135,7 +144,7 @@ export function registerIpc(passedWindow: BrowserWindow): void {
         refreshGlobalKeybinds();
     });
     ipcMain.on("getEntireConfig", (event) => {
-        const rawData = fs.readFileSync(getConfigLocation(), "utf-8");
+        const rawData = readFileSync(getConfigLocation(), "utf-8");
         event.returnValue = JSON.parse(rawData) as Settings;
     });
     ipcMain.on("getTranslations", (event) => {
@@ -178,7 +187,7 @@ export function registerIpc(passedWindow: BrowserWindow): void {
         event.returnValue = process.platform;
     });
     ipcMain.on("copyDebugInfo", () => {
-        const settingsFileContent = fs.readFileSync(getConfigLocation(), "utf-8");
+        const settingsFileContent = readFileSync(getConfigLocation(), "utf-8");
         clipboard.writeText(
             `**OS:** ${os.platform()} ${os.version()}\n**Architecture:** ${os.arch()}\n**Legcord version:** ${getVersion()}\n**Electron version:** ${
                 process.versions.electron
@@ -187,5 +196,17 @@ export function registerIpc(passedWindow: BrowserWindow): void {
     });
     ipcMain.on("copyGPUInfo", () => {
         clipboard.writeText(JSON.stringify(app.getGPUFeatureStatus()));
+    });
+    ipcMain.on("openCustomIconDialog", () => {
+        dialog
+            .showOpenDialog({
+                properties: ["openFile"],
+                filters: [{ name: "Icons", extensions: ["ico", "png", "icns"] }],
+            })
+            .then((result) => {
+                if (result.canceled) return;
+                console.log(result.filePaths[0]);
+                setConfig("customIcon", result.filePaths[0]);
+            });
     });
 }
